@@ -1,0 +1,41 @@
+<div class="container">
+  <h2>PokeAPI - ポケモン一覧</h2>
+
+  <button (click)="onclickFormatList()">ポケモンリストを取得</button>
+
+  @if (count() > 0) {
+  <div class="info">
+    <h3>取得情報</h3>
+    <p><strong>取得可能なポケモン総数:</strong> {{ count() }}</p>
+    <p><strong>現在表示中:</strong> {{ displayPokeList().length - 1 }} 件</p>
+    @if (next() !== null && next() !== undefined) {
+    <p>
+      <button (click)="onclickNextList()">次のページ</button>
+    </p>
+    } @if (previous() !== null && previous() !== undefined) {
+    <p>
+      <button (click)="onclickPreviousList()">前のページ</button>
+    </p>
+    }
+  </div>
+  }
+
+  <div class="pokemon-list">
+    @for (pokemon of displayPokeList(); track pokemon.id) { @if (pokemon.id > 0) {
+    <div class="pokemon-card">
+      <h4>No.{{ pokemon.id }} - {{ pokemon.name }}</h4>
+      <button (click)="onclickGoDetail(pokemon.url)">詳細に遷移</button>
+      <div class="images">
+        <div class="image-container">
+          <img [src]="pokemon.imgDefault" [alt]="pokemon.name + ' (通常)'" />
+          <p>通常</p>
+        </div>
+        <div class="image-container">
+          <img [src]="pokemon.imgShiny" [alt]="pokemon.name + ' (色違い)'" />
+          <p>色違い</p>
+        </div>
+      </div>
+    </div>
+    } }
+  </div>
+</div>

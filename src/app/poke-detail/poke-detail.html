@@ -1,0 +1,105 @@
+<div class="detail-container">
+  <h1>ポケモン詳細</h1>
+
+  @if (displayPokeDetail().id > 0) {
+  <div class="detail-card">
+    <h2>No.{{ displayPokeDetail().id }} - {{ displayPokeDetail().name }}</h2>
+
+    <div class="images">
+      <div class="image-container">
+        <img [src]="displayPokeDetail().imgDefault" [alt]="displayPokeDetail().name + ' (通常)'" />
+        <p>通常</p>
+      </div>
+      <div class="image-container">
+        <img [src]="displayPokeDetail().imgShiny" [alt]="displayPokeDetail().name + ' (色違い)'" />
+        <p>色違い</p>
+      </div>
+    </div>
+
+    <!-- ステータス表示 -->
+    <div class="stats">
+      <h3>ステータス</h3>
+      <ul>
+        <li>HP: {{ pokeStats().hp }}</li>
+        <li>攻撃: {{ pokeStats().attack }}</li>
+        <li>防御: {{ pokeStats().defense }}</li>
+        <li>特攻: {{ pokeStats().specialAttack }}</li>
+        <li>特防: {{ pokeStats().specialDefense }}</li>
+        <li>素早さ: {{ pokeStats().speed }}</li>
+      </ul>
+    </div>
+
+    <!-- 特性表示 -->
+    <div class="abilities">
+      <h3>特性</h3>
+      <ul>
+        @for (ability of pokeAbilities(); track ability.name) {
+        <li>
+          {{ ability.japaneseName }}
+          @if (ability.isHidden) {
+          <span class="hidden-ability">(隠れ特性)</span>
+          }
+        </li>
+        }
+      </ul>
+    </div>
+
+    <!-- 覚える技表示 -->
+    <div class="moves-section">
+      <h3>覚える技</h3>
+      <div class="version-selector">
+        <label for="versionGroup">バージョン選択：</label>
+        <select
+          id="versionGroup"
+          [(ngModel)]="selectedVersionGroup"
+          (change)="onVersionGroupChange()"
+        >
+          @for (version of versionGroups(); track version.name) {
+          <option [value]="version.name">{{ version.displayName }}</option>
+          }
+        </select>
+        <button (click)="loadMovesForVersion()">技を読み込む</button>
+      </div>
+
+      @if (loadingMoves()) {
+      <p class="loading">技を読み込み中...</p>
+      } @else if (displayMoves().length > 0) {
+      <div class="moves-table-container">
+        <table class="moves-table">
+          <thead>
+            <tr>
+              <th>技名</th>
+              <th>レベル</th>
+              <th>習得方法</th>
+              <th>タイプ</th>
+              <th>威力</th>
+              <th>PP</th>
+              <th>命中率</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (move of displayMoves(); track move.name) {
+            <tr>
+              <td>{{ move.japaneseName }}</td>
+              <td>{{ move.level > 0 ? move.level : '-' }}</td>
+              <td>{{ move.learnMethodJapanese }}</td>
+              <td>{{ move.type }}</td>
+              <td>{{ move.power ?? '-' }}</td>
+              <td>{{ move.pp }}</td>
+              <td>{{ move.accuracy ?? '-' }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      } @else {
+      <p class="no-moves">このバージョンで覚える技はありません</p>
+      }
+    </div>
+
+    <button (click)="onclickGoYubiohuru(url)">指を振るゲームに行く</button>
+  </div>
+  } @else {
+  <p class="no-data">ポケモンを選択してください</p>
+  }
+</div>

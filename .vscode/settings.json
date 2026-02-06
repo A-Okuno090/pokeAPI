@@ -1,0 +1,14 @@
+{
+  "cSpell.words": [
+    "Magikarp",
+    "Magikarpstatus",
+    "overworld",
+    "pokedex",
+    "pokedexes",
+    "Poketypes",
+    "yubiofuru",
+    "Yubiohuru"
+  ],
+  "appService.defaultWebAppToDeploy": "/subscriptions/6b92aec8-7d2f-4466-bb5f-747b336625b6/resourceGroups/TC_Training_2025/providers/Microsoft.Web/sites/20251208-okuno-5330-PokeAPILearned",
+  "appService.deploySubpath": "dist/PokeAPI/browser"
+}

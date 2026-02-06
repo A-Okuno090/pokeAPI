@@ -1,0 +1,73 @@
+<div class="game-container">
+  <h1>指を振るゲーム</h1>
+
+  <!-- ポケモン情報 -->
+  <div class="pokemon-info">
+    @if (displayPokeDetail().id > 0) {
+    <h2>{{ displayPokeDetail().name }}</h2>
+    <div class="pokemon-images">
+      <img [src]="displayPokeDetail().imgDefault" alt="通常" />
+      <img [src]="displayPokeDetail().imgShiny" alt="色違い" />
+    </div>
+
+    <!-- ステータス表示 -->
+    <div class="stats">
+      <h3>ステータス</h3>
+      <ul>
+        <li>HP: {{ pokeStats().hp }}</li>
+        <li>攻撃: {{ pokeStats().attack }}</li>
+        <li>防御: {{ pokeStats().defense }}</li>
+        <li>特攻: {{ pokeStats().specialAttack }}</li>
+        <li>特防: {{ pokeStats().specialDefense }}</li>
+        <li>素早さ: {{ pokeStats().speed }}</li>
+      </ul>
+    </div>
+    } @else {
+    <p>ポケモンが選択されていません</p>
+    }
+  </div>
+
+  <!-- 技情報 -->
+  <div class="move-info">
+    <h2>使用する技</h2>
+    <button (click)="getRandomMove()">ランダムな技を取得</button>
+
+    @if (displayPokeMove().id > 0) {
+    <div class="move-details">
+      <h3>{{ displayPokeMove().japaneseName }}</h3>
+      <p class="move-name-en">{{ displayPokeMove().name }}</p>
+      <ul>
+        <li>威力: {{ displayPokeMove().power ?? '—' }}</li>
+        <li>PP: {{ displayPokeMove().pp }}</li>
+        <li>命中率: {{ displayPokeMove().accuracy ?? '必中' }}</li>
+        <li>タイプ: {{ displayPokeMove().type.japaneseName || displayPokeMove().type.name }}</li>
+        <li>
+          分類:
+          {{ displayPokeMove().damage_class.japaneseName || displayPokeMove().damage_class.name }}
+        </li>
+      </ul>
+    </div>
+    }
+  </div>
+
+  <!-- ダメージ計算 -->
+  <div class="damage-calculator">
+    <h2>ダメージ計算</h2>
+    <div>
+      <!-- <label for="defenseInput">相手の防御力:</label>
+      <input type="number" id="defenseInput" [(ngModel)]="defenseInput" placeholder="100" />
+      <button (click)="calcDamage()">計算</button> -->
+      <button (click)="calculate_MagikarpDamage()">コイキング何匹を倒せる？</button>
+    </div>
+
+    @if (calculatedDamage !== null) {
+    <p class="damage-result">
+      与えるダメージ: <strong>{{ calculatedDamage }}</strong>
+    </p>
+    } @if (magikarpDamage !== null) {
+    <p class="damage-result">
+      コイキング換算: <strong>{{ magikarpDamage.toFixed(2) }}</strong> 匹分
+    </p>
+    }
+  </div>
+</div>
